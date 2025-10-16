@@ -66,14 +66,14 @@ export default function EditAplicacaoFinanceira() {
             return;
         }
 
-        const upAplicacao = {
-            tipo,
-            valor: parseFloat(valor),
-            conta_corrente_id: contaEncontrada.id,
-            status
-        };
+       // Só opções válidas para edição
+        const statusAplicacao = [
+            { value: 'ativa', label: 'Ativa' },
+            { value: 'resgatada', label: 'Resgatada' }
+        ];
 
-        Client.put(`aplicacoesFinanceiras/${aplicacao.id}`, upAplicacao)
+
+        Client.put(`aplicacoesFinanceiras/${aplicacao.id}`, statusAplicacao)
             .then(() => setShow(true))
             .catch(console.error);
     }
@@ -108,29 +108,11 @@ export default function EditAplicacaoFinanceira() {
             <NavigationBar />
             {load 
                 ? <Container className="d-flex justify-content-center mt-5">
-                    <OrbitProgress variant="spokes" color="#582770" size="medium" />
+                    <OrbitProgress variant="spokes" color="#f700adff" size="medium" />
                   </Container>
                 : <Container className='mt-2'>
                     <div className="row">
                         <div className="col-md-6">
-                            <Label>Tipo de Aplicação</Label>
-                            <Select value={tipo} onChange={e => setTipo(e.target.value)}>
-                                <option value="">Selecione o tipo</option>
-                                {tiposAplicacao.map(t => (
-                                    <option key={t.value} value={t.value}>{t.label}</option>
-                                ))}
-                            </Select>
-                        </div>
-                        <div className="col-md-6">
-                            <Label>Valor</Label>
-                            <Input 
-                                type="number" 
-                                value={valor} 
-                                onChange={e => setValor(e.target.value)} 
-                                placeholder="Digite o valor"
-                                step="0.01"
-                                min="0.01"
-                            />
                         </div>
                     </div>
 
@@ -144,23 +126,25 @@ export default function EditAplicacaoFinanceira() {
                                 placeholder="Digite o número da conta"
                             />
                             {contaEncontrada && (
-                                <Alert variant="success" className="mt-2 small py-2">
-                                    ✅ Conta encontrada: <strong>{contaEncontrada.numeroConta}</strong> - {contaEncontrada.cliente?.nomeCompleto}
+                                <Alert variant="" className="mt-2 small py-2" style={{ color: "#f700adff" }}>
+                                    Conta encontrada: <strong>{contaEncontrada.numeroConta}</strong> - {contaEncontrada.cliente?.nomeCompleto}
                                 </Alert>
                             )}
+
                             {erro && (
-                                <Alert variant="danger" className="mt-2 small py-2">
-                                    ❌ {erro}
+                                <Alert variant="" className="mt-2 small py-2" style={{ color: "#f700adff" }}>
+                                    {erro}
                                 </Alert>
                             )}
+
                         </div>
                         <div className="col-md-6">
                             <Label>Status</Label>
-                            <Select value={status} onChange={e => setStatus(e.target.value)}>
-                                {statusAplicacao.map(s => (
-                                    <option key={s.value} value={s.value}>{s.label}</option>
-                                ))}
-                            </Select>
+                                <Select value={status} onChange={e => setStatus(e.target.value)}>
+                                    {statusAplicacao.map(s => (
+                                        <option key={s.value} value={s.value}>{s.label}</option>
+                                    ))}
+                                </Select>
                         </div>
                     </div>
 

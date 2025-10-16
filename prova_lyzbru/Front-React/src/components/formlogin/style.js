@@ -34,7 +34,7 @@ export const Icon = styled.img`
 
 export const Title = styled.h1`
     font-size: 48px;
-    color: #111;
+    color: #e41b97ff;
     margin-bottom: 5px;
 `;
 
@@ -48,6 +48,7 @@ export const SubTitle = styled.h3`
 export const Label = styled.label`
     display: block;
     font-size: 18px;
+    color: #e41b97ff;
     margin-top: 15px;
     margin-bottom: 5px;
 `;
@@ -101,8 +102,8 @@ export const MsgBox = styled.div`
     grid-template-columns: 1fr;
     text-align: center;
     width: 90%;
+    color: #e41b97ff;
     padding-top: 10px;
-    color: red;
 `
 
 export const Submit = styled.input.attrs({ type: 'submit' })`
@@ -124,7 +125,7 @@ export const LinkForgot = styled.div`
     cursor: grab;
     font-size: 18px;
     margin-top: 20px;
-    color: #888;
+    color: #e41b97ff;
     font-weight: 600;
     padding-top: 7px;
 

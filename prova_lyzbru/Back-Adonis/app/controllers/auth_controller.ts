@@ -5,12 +5,14 @@ import logger from '@adonisjs/core/services/logger'
 import { permissions } from '../utils/permissoes.js'
 
 export default class AuthController {
-
+  /**
+   * Registrar um novo usuário
+   */
   async register({ request, response }: HttpContext) {
     try {
       const payload = await request.validateUsing(registerValidator)
       const user = await User.create(payload)
-      
+      // Criar token de acesso para o usuário recém-registrado
       const token = await User.accessTokens.create(user, ['*'], {
         name: 'Registration Token',
         expiresIn: '30 days',
@@ -40,6 +42,9 @@ export default class AuthController {
     }
   }
 
+  /**
+   * Fazer login do usuário
+   */
   async login({ request, response }: HttpContext) {
     try {
       const { email, senha } = await request.validateUsing(loginValidator)
@@ -76,7 +81,9 @@ export default class AuthController {
     }
   }
 
- 
+  /**
+   * Fazer logout do usuário (invalidar token atual)
+   */
   async logout({ auth, response }: HttpContext) {
     try {
       const user = auth.getUserOrFail()
@@ -96,6 +103,9 @@ export default class AuthController {
     }
   }
 
+  /**
+   * Obter informações do usuário autenticado
+   */
   async me({ auth, response }: HttpContext) {
     try {
       const user = auth.getUserOrFail()
@@ -117,6 +127,9 @@ export default class AuthController {
     }
   }
 
+  /**
+   * Listar todos os tokens do usuário autenticado
+   */
   async tokens({ auth, response }: HttpContext) {
     try {
       const user = auth.getUserOrFail()
@@ -139,6 +152,9 @@ export default class AuthController {
     }
   }
 
+  /**
+   * Criar um novo token para o usuário autenticado
+   */
   async createToken({ auth, request, response }: HttpContext) {
     try {
       const user = auth.getUserOrFail()

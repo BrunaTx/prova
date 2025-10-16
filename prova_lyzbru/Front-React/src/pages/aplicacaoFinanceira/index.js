@@ -58,15 +58,16 @@ export default function IndexAplicacaoFinanceira() {
                     <OrbitProgress variant="spokes" color="#f700adff" size="medium" />
                   </Container>
                 : <Container className='mt-2'>
-                    <DataTable 
+                   <DataTable 
                         title="Aplicações Financeiras Registradas" 
                         rows={['Tipo', 'Valor', 'Status', 'Conta Corrente', 'Data Criação', 'Ações']}
                         hide={[false, false, false, false, false, false]}
                         data={data}
                         keys={['tipo_formatado', 'valor_formatado', 'status_formatado', 'conta_corrente_info', 'data_criacao']} 
                         resource='aplicacoesFinanceiras'
-                        crud={['viewAplicacaoFinanceira', 'createAplicacaoFinanceira', 'editAplicacaoFinanceira', 'deleteAplicacaoFinanceira']}
+                        crud={['viewAplicacaoFinanceira', 'createAplicacaoFinanceira', 'editAplicacaoFinanceira']} // <-- REMOVIDO delete
                     />
+
                   </Container>
             }
         </>

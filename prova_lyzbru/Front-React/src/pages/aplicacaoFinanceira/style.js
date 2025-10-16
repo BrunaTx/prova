@@ -39,7 +39,7 @@ export const Select = styled.select `
 export const Label = styled.label`
     display: block;
     font-size: 18px;
-    color: #111;
+    color: #e90cb9ff;
     margin-top: 15px;
     margin-bottom: 5px;
 `

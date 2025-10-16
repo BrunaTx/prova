@@ -1,4 +1,4 @@
-import { DateTime } from '../../node_modules/@types/luxon/index.js'
+import { DateTime } from 'luxon'
 import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 import ContaCorrente from './conta_corrente.js' 
@@ -30,6 +30,9 @@ export default class Cliente extends BaseModel {
 
   @column()
   declare numero_casa: string
+
+  @column()   
+  declare user_id: number | null | undefined
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
