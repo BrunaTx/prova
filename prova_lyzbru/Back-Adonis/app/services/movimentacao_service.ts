@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon'
+import { DateTime } from '../../node_modules/@types/luxon/index.js'
 import ContaCorrente from '#models/conta_corrente'
 import Movimentacao from '#models/movimentacao'
 

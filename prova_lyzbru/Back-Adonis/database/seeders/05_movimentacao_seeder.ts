@@ -1,6 +1,6 @@
 import { BaseSeeder } from '@adonisjs/lucid/seeders'
 import Movimentacao from '#models/movimentacao'
-import { DateTime } from 'luxon'
+import { DateTime } from '../../node_modules/@types/luxon/index.js'
 
 export default class MovimentacaoSeeder extends BaseSeeder {
   public async run() {
