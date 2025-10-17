@@ -43,7 +43,6 @@ export default function EditCliente() {
             numero_casa: numeroCasa
         };
 
-        // Só inclui a senha se foi alterada
         if (senha) {
             upCliente.senha = senha;
         }
@@ -102,7 +101,6 @@ export default function EditCliente() {
                                 type="password" 
                                 value={senha} 
                                 onChange={e => setSenha(e.target.value)} 
-                                placeholder="Deixe em branco para manter a senha atual"
                             />
                         </div>
                         <div className="col-md-6">

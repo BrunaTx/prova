@@ -62,7 +62,7 @@ export default function IndexMovimentacao() {
                 : <Container className='mt-2'>
                     <DataTable 
                         title="Movimentações Registradas" 
-                        rows={['Tipo', 'Valor', 'Data', 'Conta Origem', 'Conta Destino', 'Ações']}
+                        rows={['0', '0', '0', '0', '0', '0']}
                         hide={[false, false, false, false, false, false]}
                         data={data}
                         keys={['tipo_formatado', 'valor_formatado', 'data_formatada', 'conta_origem', 'conta_destino']} 

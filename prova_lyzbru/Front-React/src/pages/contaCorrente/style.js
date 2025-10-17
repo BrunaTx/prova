@@ -1,60 +1,111 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
-export const Input = styled.input `
-    display: inline-block;
-    width: 90%;
-    height: 30px;
-    border: 0px;
-    border-left: 1px solid #888;
-    border-bottom: 1px solid #888;
-    border-radius: 3px;
-    margin-bottom: 10px;
-    padding-left: 10px;
+// Card centralizado
+export const FormCard = styled.div`
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 40px;
+    background: #fff0f8;
+    border-radius: 25px;
+    box-shadow: 0 12px 30px rgba(228,27,151,0.2);
+`;
+
+// Título do formulário
+export const FormTitle = styled.h2`
+    text-align: center;
+    color: #e41b97ff;
+    margin-bottom: 30px;
+    font-size: 26px;
+    font-weight: bold;
+`;
+
+// Seções do formulário (linha de inputs)
+export const Section = styled.div`
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+`;
+
+// Wrapper para cada input/label
+export const InputWrapper = styled.div`
+    flex: ${props => props.full ? '1 1 100%' : '1'};
+    position: relative;
+`;
+
+// Inputs estilizados
+export const Input = styled.input`
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 20px;
+    border: 2px solid #e41b97ff;
+    font-size: 16px;
+    background: #fff;
+    transition: 0.3s;
 
     &:focus {
         outline: none;
-        border: 1px solid #555;
-        border-radius: 4px;
+        border-color: #f73eacff;
+        box-shadow: 0 0 10px rgba(247,62,172,0.3);
     }
-`
+`;
 
-export const Select = styled.select `
-    display: inline-block;
-    width: 90%;
-    height: 30px;
-    border: 0px;
-    border-left: 1px solid #888;
-    border-bottom: 1px solid #888;
-    border-radius: 3px;
-    margin-bottom: 10px;
-    padding-left: 10px;
+// Select estilizado
+export const Select = styled.select`
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 20px;
+    border: 2px solid #e41b97ff;
+    font-size: 16px;
+    background: #fff;
 
     &:focus {
         outline: none;
-        border: 1px solid #555;
-        border-radius: 4px;
+        border-color: #f73eacff;
+        box-shadow: 0 0 10px rgba(247,62,172,0.3);
     }
-`
+`;
 
+// Label
 export const Label = styled.label`
     display: block;
-    font-size: 18px;
-    color: #111;
-    margin-top: 15px;
+    font-weight: 600;
     margin-bottom: 5px;
-`
+    color: #e41b97ff;
+`;
+
+// Botão submit com gradiente animado
+const moveGradient = keyframes`
+    0% { background-position: 0% }
+    50% { background-position: 100% }
+    100% { background-position: 0% }
+`;
 
 export const Submit = styled.input.attrs({ type: 'submit' })`
-    box-sizing: border-box;
-    width: 180px;
-    height: 35px;
-    background-color: #e41b97ff;
-    color: white;
+    width: 100%;
+    max-width: 200px;
+    padding: 14px;
     font-size: 16px;
     font-weight: bold;
-    border-radius: 8px;
-    margin-top: 20px;
-    border: 0px;
-    cursor: grab;
-    margin-right: 5px;
-`
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    background: linear-gradient(90deg,#e41b97ff,#f73eacff);
+    background-size: 200% 200%;
+    animation: ${moveGradient} 5s ease infinite;
+    transition: 0.3s;
+
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 15px rgba(228,27,151,0.4);
+    }
+`;
+
+// Linha de botões
+export const ButtonRow = styled.div`
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+`;

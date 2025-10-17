@@ -7,6 +7,14 @@ import { Label, Input, Select, Submit } from "./style";
 import { Client } from '../../api/client';
 import { getPermissions } from '../../service/PermissionService';
 import { getDataUser } from '../../service/UserService';
+import styled from 'styled-components';
+
+// Mensagem de erro
+const ErrorMessage = styled.div`
+    color: #e41b97ff;
+    font-size: 14px;
+    margin-top: 5px;
+`;
 
 export default function CreateContaCorrente() {
     const [numeroConta, setNumeroConta] = useState('');
@@ -18,6 +26,7 @@ export default function CreateContaCorrente() {
     const navigate = useNavigate();
     const permissions = getPermissions();
     const dataUser = getDataUser();
+    const [erroNumeroConta, setErroNumeroConta] = useState(false);
 
     function fetchData() {
         setLoad(true);
@@ -29,12 +38,6 @@ export default function CreateContaCorrente() {
         }, 500);
     }
 
-    function gerarNumeroConta() {
-        const timestamp = Date.now().toString();
-        const numero = timestamp.slice(-5); 
-        setNumeroConta(`1${numero.padStart(4, '0')}`);
-    }
-
     function verifyPermission() {
         if (!dataUser) navigate('/login');
         else if (permissions.createContaCorrente === 0) navigate(-1);
@@ -43,16 +46,23 @@ export default function CreateContaCorrente() {
     useEffect(() => {
         verifyPermission();
         fetchData();
-        gerarNumeroConta(); 
     }, []);
 
+    function validarConta() {
+        return numeroConta.length === 6;
+    }
+
     function sendData() {
+        if (!validarConta()) {
+            setErroNumeroConta(true);
+            return;
+        }
         const contaCorrente = {
             numeroConta,
             numeroAgencia,
             saldo: saldo ? parseFloat(saldo) : 0,
             clienteId
-    };
+        };
 
         Client.post('contasCorrentes', contaCorrente)
             .then(() => navigate('/contasCorrentes'))
@@ -74,19 +84,14 @@ export default function CreateContaCorrente() {
                                 <Input
                                     type="text"
                                     value={numeroConta}
-                                    onChange={e => setNumeroConta(e.target.value)}
-                                    placeholder="Número gerado automaticamente"
+                                    onChange={e => {
+                                        setNumeroConta(e.target.value);
+                                        setErroNumeroConta(false);
+                                    }}
+                                    placeholder="Digite o número da conta (min. 6)"
                                 />
-                                <button 
-                                    type="button" 
-                                    className="btn btn-outline-secondary"
-                                    onClick={gerarNumeroConta}
-                                    style={{ whiteSpace: 'nowrap' }}
-                                >
-                                    Gerar
-                                </button>
                             </div>
-                            <small className="text-muted">Número gerado automaticamente</small>
+                            {erroNumeroConta && <ErrorMessage>O número da conta deve ter 6 dígitos.</ErrorMessage>}
                         </div>
                         <div className="col-md-6">
                             <Label>Número da Agência</Label>
