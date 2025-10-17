@@ -2,18 +2,33 @@ import type { HttpContext } from '@adonisjs/core/http'
 import { createAplicacaoFinanceira, updateAplicacaoFinanceira } from '#validators/aplicacao_financeira'
 import AplicacaoFinanceiraPolicy from '#policies/aplicacao_financeira'
 import AplicacaoFinanceiraService from '#services/aplicacao_financeira_service'
+import Cliente from '#models/cliente'
 import logger from '@adonisjs/core/services/logger'
 
 export default class AplicacoesFinanceirasController {
-  async index({ response, auth, bouncer }: HttpContext) {
+  async index({ response, auth, bouncer, request }: HttpContext) {
     try {
-      await auth.getUserOrFail()
+      const user = await auth.getUserOrFail()
 
       if (await bouncer.with(AplicacaoFinanceiraPolicy).denies('list')) {
         return response.forbidden({ message: 'Você não tem permissão para listar aplicações financeiras' })
       }
 
-      const aplicacoes = await AplicacaoFinanceiraService.listarAplicacoes()
+      let aplicacoes = await AplicacaoFinanceiraService.listarAplicacoes()
+
+      // 🔒 Restrição para cliente logado: só vê suas próprias aplicações
+      if (user.papel_id === 2) {
+        const cliente = await Cliente.query().where('user_id', user.id).first()
+        if (!cliente) return response.status(404).json({ message: 'Cliente não encontrado' })
+        aplicacoes = aplicacoes.filter(a => a.contaCorrente.cliente.id === cliente.id)
+      }
+
+      // 🔹 Filtro opcional por conta_corrente_id
+      const contaCorrenteId = request.input('contaCorrenteId')
+      if (contaCorrenteId) {
+        aplicacoes = aplicacoes.filter(a => a.contaCorrente.id === Number(contaCorrenteId))
+      }
+
       return response.status(200).json({ message: 'OK', data: aplicacoes })
     } catch (error) {
       logger.error(error)
@@ -55,13 +70,19 @@ export default class AplicacoesFinanceirasController {
 
   async show({ params, response, auth, bouncer }: HttpContext) {
     try {
-      await auth.getUserOrFail()
+      const user = await auth.getUserOrFail()
 
       if (await bouncer.with(AplicacaoFinanceiraPolicy).denies('view')) {
         return response.forbidden({ message: 'Você não tem permissão para ver aplicação financeira' })
       }
 
       const aplicacao = await AplicacaoFinanceiraService.buscarAplicacao(params.id)
+
+      // 🔒 Cliente só pode ver suas próprias aplicações
+      if (user.papel_id === 2 && aplicacao.contaCorrente.cliente.user_id !== user.id) {
+        return response.status(403).json({ message: 'Acesso negado' })
+      }
+
       return response.status(200).json({ message: 'OK', data: aplicacao })
     } catch (error) {
       logger.error(error)
