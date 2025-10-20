@@ -127,6 +127,7 @@ export const LinkForgot = styled.div`
     margin-top: 20px;
     color: #e41b97ff;
     font-weight: 600;
+    white-space: nowrap;
     padding-top: 7px;
 
     &:hover {

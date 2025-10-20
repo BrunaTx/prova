@@ -139,18 +139,20 @@ export default function CreateAplicacaoFinanceira() {
                                 onChange={e => setNumeroConta(e.target.value)}
                                 placeholder="Digite o número da conta"
                             />
-                            {contaEncontrada && (
-                                <Alert variant="success" className="mt-2 small py-2">
-                                    ✅ Conta encontrada: <strong>{contaEncontrada.numero_conta}</strong> - {contaEncontrada.cliente?.nome_completo} 
-                                    <br />
-                                    Saldo: <strong>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(contaEncontrada.saldo)}</strong>
-                                </Alert>
-                            )}
-                            {erro && (
-                                <Alert variant="danger" className="mt-2 small py-2">
-                                    ❌ {erro}
-                                </Alert>
-                            )}
+                          {contaEncontrada && (
+                            <Alert
+                                className="mt-2 small py-2"
+                                style={{
+                                backgroundColor: 'white',
+                                color: '#f700adff',
+                                border: 'none',
+                                }}
+                            >
+                                <br />
+                                Saldo: <strong>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(contaEncontrada.saldo)}</strong>
+                            </Alert>
+                        )}
+
                         </div>
                         <div className="col-md-6">
                             <Label>Status</Label>

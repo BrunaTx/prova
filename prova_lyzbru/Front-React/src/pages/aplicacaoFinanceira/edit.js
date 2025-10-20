@@ -7,6 +7,8 @@ import { Label, Input, Select, Submit } from "./style";
 import { Client } from '../../api/client';
 import { getPermissions } from '../../service/PermissionService';
 import { getDataUser } from '../../service/UserService';
+import { RosaButton } from './style';
+
 
 export default function EditAplicacaoFinanceira() {
     const location = useLocation();
@@ -61,22 +63,23 @@ export default function EditAplicacaoFinanceira() {
     }
 
     function updateAplicacaoFinanceira() {
-        if (!contaEncontrada) {
-            setErro('Por favor, digite um número de conta válido');
-            return;
-        }
-
-       // Só opções válidas para edição
-        const statusAplicacao = [
-            { value: 'ativa', label: 'Ativa' },
-            { value: 'resgatada', label: 'Resgatada' }
-        ];
-
-
-        Client.put(`aplicacoesFinanceiras/${aplicacao.id}`, statusAplicacao)
-            .then(() => setShow(true))
-            .catch(console.error);
+    if (!contaEncontrada) {
+        setErro('Por favor, digite um número de conta válido');
+        return;
     }
+
+    const payload = { status }; // só atualizando o status
+
+    Client.put(`aplicacoesFinanceiras/${aplicacao.id}`, payload)
+        .then(() => {
+            setShow(true); // abre modal de sucesso
+        })
+        .catch(err => {
+            console.error(err);
+            setErro('Erro ao atualizar aplicação financeira');
+        });
+}
+
 
     const handleClose = () => { setShow(false); navigate('/aplicacoesFinanceiras'); }
 
@@ -125,17 +128,7 @@ export default function EditAplicacaoFinanceira() {
                                 onChange={e => setNumeroConta(e.target.value)} 
                                 placeholder="Digite o número da conta"
                             />
-                            {contaEncontrada && (
-                                <Alert variant="" className="mt-2 small py-2" style={{ color: "#f700adff" }}>
-                                    Conta encontrada: <strong>{contaEncontrada.numeroConta}</strong> - {contaEncontrada.cliente?.nomeCompleto}
-                                </Alert>
-                            )}
-
-                            {erro && (
-                                <Alert variant="" className="mt-2 small py-2" style={{ color: "#f700adff" }}>
-                                    {erro}
-                                </Alert>
-                            )}
+                            { }
 
                         </div>
                         <div className="col-md-6">
@@ -156,12 +149,16 @@ export default function EditAplicacaoFinanceira() {
             }
 
             <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Atualização - Aplicação Financeira</Modal.Title>
+                 <Modal.Header closeButton style={{ backgroundColor: '#ffe4f6' }}>
+                <Modal.Title style={{ color: '#f700adff' }}>Aplicação Atualizado</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Operação Efetuada com Sucesso!</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="primary" onClick={handleClose}>OK</Button>
+
+                <Modal.Body style={{ backgroundColor: '#ffe4f6', color: '#f700adff' }}>
+                Atualização realizada com Sucesso!
+                </Modal.Body>
+
+                <Modal.Footer closeButton style={{ backgroundColor: '#ffe4f6' }}>
+                    <RosaButton onClick={handleClose}>OK</RosaButton>
                 </Modal.Footer>
             </Modal>
         </>

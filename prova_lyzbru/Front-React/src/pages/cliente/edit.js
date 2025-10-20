@@ -7,6 +7,8 @@ import { Label, Input, Select, Submit } from "./style";
 import { Client } from '../../api/client';
 import { getPermissions } from '../../service/PermissionService';
 import { getDataUser } from '../../service/UserService';
+import { RosaButton } from './style';
+
 
 export default function EditCliente() {
     const location = useLocation();
@@ -164,13 +166,19 @@ export default function EditCliente() {
             }
 
             <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Atualização - Cliente</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>Operação Efetuada com Sucesso!</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="primary" onClick={handleClose}>OK</Button>
-                </Modal.Footer>
+                <Modal.Header closeButton style={{ backgroundColor: '#ffe4f6' }}>
+                    <Modal.Title style={{ color: '#f700adff' }}>Cliente Atualizado</Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body style={{ backgroundColor: '#ffe4f6', color: '#f700adff' }}>
+                    Atualização realizada com Sucesso!
+                    </Modal.Body>
+
+                    <Modal.Footer closeButton style={{ backgroundColor: '#ffe4f6' }}>
+                        <RosaButton onClick={handleClose}>OK</RosaButton>
+                    </Modal.Footer>
+
+
             </Modal>
         </>
     )

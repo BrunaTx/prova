@@ -1,4 +1,7 @@
 import styled, { keyframes } from 'styled-components';
+import { Button } from 'react-bootstrap';
+
+
 
 // Card centralizado
 export const FormCard = styled.div`
@@ -100,6 +103,8 @@ export const Submit = styled.input.attrs({ type: 'submit' })`
         transform: scale(1.05);
         box-shadow: 0 6px 15px rgba(228,27,151,0.4);
     }
+
+    
 `;
 
 // Linha de botões
@@ -109,3 +114,18 @@ export const ButtonRow = styled.div`
     flex-wrap: wrap;
     gap: 15px;
 `;
+
+export const RosaButton = styled(Button)`
+  background-color: #f700adff;
+  border-color: #f700adff;
+  color: #fff;
+
+  &:hover {
+    background-color: #c10099;
+    border-color: #c10099;
+  }
+`;
+
+
+
+

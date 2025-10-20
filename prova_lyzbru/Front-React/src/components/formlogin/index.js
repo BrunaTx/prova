@@ -71,8 +71,8 @@ export default function FormLogin() {
                 </BoxItem>
                 <div></div>
             </BoxIcon>
-            <Title>Autenticação</Title>
-            <SubTitle>Informe suas credenciais</SubTitle>
+            <Title>Login</Title>
+            <SubTitle>Coloque seus dados </SubTitle>
             {
                 load 
                 ?
@@ -108,8 +108,8 @@ export default function FormLogin() {
                         }
                         
                         <SendBox>
-                            <Submit value="Autenticar" onClick={() => Authenticate() }/>
-                            <LinkForgot onClick={() => navigate('/login')}> Esqueceu sua senha?</LinkForgot>
+                            <Submit value="Logar" onClick={() => Authenticate() }/>
+                            <LinkForgot onClick={() => navigate('/login')}> Affs, esqueceu sua senha de novo?</LinkForgot>
                         </SendBox>
                     </>
             }

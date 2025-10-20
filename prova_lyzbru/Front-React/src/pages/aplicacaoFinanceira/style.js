@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import { Button } from 'react-bootstrap';
 
 // Card centralizado
 export const FormCard = styled.div`
@@ -108,4 +109,15 @@ export const ButtonRow = styled.div`
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 15px;
+`;
+
+export const RosaButton = styled(Button)`
+  background-color: #f700adff;
+  border-color: #f700adff;
+  color: #fff;
+
+  &:hover {
+    background-color: #c10099;
+    border-color: #c10099;
+  }
 `;
