@@ -9,7 +9,6 @@ import { getPermissions } from '../../service/PermissionService';
 import { getDataUser } from '../../service/UserService';
 import styled from 'styled-components';
 
-// Mensagem de erro
 const ErrorMessage = styled.div`
     color: #e41b97ff;
     font-size: 14px;

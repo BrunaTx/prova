@@ -76,9 +76,9 @@ export default function EditContaCorrente() {
                                 value={numeroConta} 
                                 onChange={e => setNumeroConta(e.target.value)} 
                                 placeholder="Número da conta"
-                                readOnly // Número não pode ser alterado na edição
+                                readOnly 
                             />
-                            <small className="text-muted">Número da conta não pode ser alterado</small>
+                            <small className="text-muted">Não pode ser alterado</small>
                         </div>
                         <div className="col-md-6">
                             <Label>Número da Agência</Label>

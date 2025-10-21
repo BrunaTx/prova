@@ -35,7 +35,6 @@ export default function CreateCliente() {
 
     useEffect(() => {
         verifyPermission();
-        // Simula carregamento
         setTimeout(() => setLoad(false), 500);
     }, []);
 
