@@ -1,9 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 import { Button } from 'react-bootstrap';
 
-
-
-// Card centralizado
 export const FormCard = styled.div`
     max-width: 700px;
     margin: 50px auto;
@@ -13,7 +10,7 @@ export const FormCard = styled.div`
     box-shadow: 0 12px 30px rgba(228,27,151,0.2);
 `;
 
-// Título do formulário
+
 export const FormTitle = styled.h2`
     text-align: center;
     color: #e41b97ff;
@@ -22,7 +19,7 @@ export const FormTitle = styled.h2`
     font-weight: bold;
 `;
 
-// Seções do formulário (linha de inputs)
+
 export const Section = styled.div`
     display: flex;
     gap: 20px;
@@ -30,13 +27,13 @@ export const Section = styled.div`
     margin-bottom: 25px;
 `;
 
-// Wrapper para cada input/label
+
 export const InputWrapper = styled.div`
     flex: ${props => props.full ? '1 1 100%' : '1'};
     position: relative;
 `;
 
-// Inputs estilizados
+
 export const Input = styled.input`
     width: 100%;
     padding: 14px 18px;
@@ -53,7 +50,7 @@ export const Input = styled.input`
     }
 `;
 
-// Select estilizado
+
 export const Select = styled.select`
     width: 100%;
     padding: 14px 18px;
@@ -69,7 +66,7 @@ export const Select = styled.select`
     }
 `;
 
-// Label
+
 export const Label = styled.label`
     display: block;
     font-weight: 600;
@@ -77,7 +74,6 @@ export const Label = styled.label`
     color: #e41b97ff;
 `;
 
-// Botão submit com gradiente animado
 const moveGradient = keyframes`
     0% { background-position: 0% }
     50% { background-position: 100% }
@@ -107,7 +103,6 @@ export const Submit = styled.input.attrs({ type: 'submit' })`
     
 `;
 
-// Linha de botões
 export const ButtonRow = styled.div`
     display: flex;
     justify-content: space-between;
