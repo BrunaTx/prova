@@ -5,9 +5,9 @@ import logger from '@adonisjs/core/services/logger'
 import { permissions } from '../utils/permissoes.js'
 
 export default class AuthController {
-  /**
-   * Registrar um novo usuário
-   */
+  
+   // Registra novo usuário
+   
   async register({ request, response }: HttpContext) {
     try {
       const payload = await request.validateUsing(registerValidator)
@@ -42,9 +42,9 @@ export default class AuthController {
     }
   }
 
-  /**
-   * Fazer login do usuário
-   */
+  
+   // Faz login do usuário
+   
   async login({ request, response }: HttpContext) {
     try {
       const { email, senha } = await request.validateUsing(loginValidator)
@@ -53,7 +53,7 @@ export default class AuthController {
 
       const user = await User.verifyCredentials(email, senha)
 
-      // Criar token de acesso
+      // Cria token de acesso
       const token = await User.accessTokens.create(user, ['*'], {
         name: 'Login Token',
         expiresIn: '30 days',
@@ -76,14 +76,14 @@ export default class AuthController {
       })
     } catch (error) {
       return response.unauthorized({
-        message: 'Credenciais inválidas',
+        message: 'Dados inválidas',
       })
     }
   }
 
-  /**
-   * Fazer logout do usuário (invalidar token atual)
-   */
+  
+   //Fazer logout do usuário (invalidar token atual)
+ 
   async logout({ auth, response }: HttpContext) {
     try {
       const user = auth.getUserOrFail()

@@ -16,14 +16,14 @@ export default class AplicacoesFinanceirasController {
 
       let aplicacoes = await AplicacaoFinanceiraService.listarAplicacoes()
 
-      // 🔒 Restrição para cliente logado: só vê suas próprias aplicações
+       // filtra aplicacoes do cliente logado
       if (user.papel_id === 2) {
         const cliente = await Cliente.query().where('user_id', user.id).first()
         if (!cliente) return response.status(404).json({ message: 'Cliente não encontrado' })
         aplicacoes = aplicacoes.filter(a => a.contaCorrente.cliente.id === cliente.id)
       }
 
-      // 🔹 Filtro opcional por conta_corrente_id
+      // Filtro conta corrente id
       const contaCorrenteId = request.input('contaCorrenteId')
       if (contaCorrenteId) {
         aplicacoes = aplicacoes.filter(a => a.contaCorrente.id === Number(contaCorrenteId))
@@ -41,7 +41,7 @@ export default class AplicacoesFinanceirasController {
       await auth.getUserOrFail()
 
       if (await bouncer.with(AplicacaoFinanceiraPolicy).denies('create')) {
-        return response.forbidden({ message: 'Você não tem permissão para criar aplicação financeira' })
+        return response.forbidden({ message: 'Sem permissão' })
       }
 
       return response.status(200).json({ message: 'OK', data: [] })
@@ -57,7 +57,7 @@ export default class AplicacoesFinanceirasController {
       await auth.getUserOrFail()
 
       if (await bouncer.with(AplicacaoFinanceiraPolicy).denies('create')) {
-        return response.forbidden({ message: 'Você não tem permissão para criar aplicações financeiras' })
+        return response.forbidden({ message: 'Sem permissão' })
       }
 
       const aplicacao = await AplicacaoFinanceiraService.criarAplicacao(payload)
@@ -78,7 +78,7 @@ export default class AplicacoesFinanceirasController {
 
       const aplicacao = await AplicacaoFinanceiraService.buscarAplicacao(params.id)
 
-      // 🔒 Cliente só pode ver suas próprias aplicações
+      // Cliente so ve suas aplicações
       if (user.papel_id === 2 && aplicacao.contaCorrente.cliente.user_id !== user.id) {
         return response.status(403).json({ message: 'Acesso negado' })
       }

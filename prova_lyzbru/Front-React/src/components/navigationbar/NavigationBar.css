@@ -9,10 +9,27 @@
 }
 
 .nav-link-custom:hover svg {
-    fill: #c21881; /* rosa mais escuro */
+    fill: #c21881; 
 }
 
 .nav-link-custom:hover span.text-custom {
-    color: #c21881; /* rosa mais escuro */
+    color: #c21881; 
     opacity: 1;
 }
+
+.navbar .dropdown-menu {
+    background-color: #fadcf0ff !important; 
+    border: 1px solid #e41b97ff;
+}
+
+.navbar .dropdown-menu .dropdown-item {
+    color: #e41b97ff !important; 
+    background-color: #fadcf0ff; 
+}
+
+.navbar .dropdown-menu .dropdown-item:hover {
+    background-color: #fadcf0ff !important; 
+    color: #e41b97ff !important;
+}
+
+

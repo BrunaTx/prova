@@ -42,9 +42,9 @@ export default function FormLogin() {
              Client.post('auth/login', user).then(res => {
                 const load = res.data
                 console.log(load)
-                // Context
+                
                 setUser(load.user)
-                // Local Storage
+    
                 setDataUser(load.user)
                 setToken(load.token.value)
                 setPermissions(load.permissions)

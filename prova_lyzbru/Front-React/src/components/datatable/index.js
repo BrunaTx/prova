@@ -5,6 +5,7 @@ import { Title } from './style'
 import { Client } from '../../api/client';
 import { VIEW, CREATE, EDIT, DELETE } from '../../utils/crud'
 import { getPermissions } from '../../service/PermissionService';
+import { RosaButton } from './style';
 
 export default function DataTable(props) {
 
@@ -29,7 +30,7 @@ export default function DataTable(props) {
 
   const handleClose = () => { 
     setShow(false)
-    navigate(0); // reload page
+    navigate(0); 
   }
 
   return (
@@ -162,13 +163,17 @@ export default function DataTable(props) {
           backdrop="static"
           keyboard={false}
       >
-          <Modal.Header closeButton>
-              <Modal.Title>Remoção - Usuário</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Operação Efetuda com Sucesso!!</Modal.Body>
-          <Modal.Footer>
-              <Button variant="primary" onClick={handleClose}>OK</Button>
-          </Modal.Footer>
+          <Modal.Header closeButton style={{ backgroundColor: '#ffe4f6' }}>
+                              <Modal.Title style={{ color: '#f700adff' }}>Cliente Removido</Modal.Title>
+                              </Modal.Header>
+          
+                              <Modal.Body style={{ backgroundColor: '#ffe4f6', color: '#f700adff' }}>
+                              Remoção realizada com Sucesso!
+                              </Modal.Body>
+          
+                              <Modal.Footer closeButton style={{ backgroundColor: '#ffe4f6' }}>
+                                  <RosaButton onClick={handleClose}>OK</RosaButton>
+                              </Modal.Footer>
       </Modal>
     </>
   );

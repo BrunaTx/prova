@@ -30,7 +30,7 @@ export default class ContaCorrenteService {
     const conta = await ContaCorrente.findOrFail(id)
 
     if (Number(conta.saldo) !== 0) {
-      throw new Error('Não é possível excluir uma conta com saldo diferente de zero.')
+      throw new Error(' ')
     }
 
     // Verifica se ainda há aplicações ativas
@@ -39,7 +39,7 @@ export default class ContaCorrenteService {
       .where('status', 'ativa')
 
     if (aplicacoesAtivas.length > 0) {
-      throw new Error('Não é possível excluir conta com aplicações financeiras ativas.')
+      throw new Error(' ')
     }
 
     const data = conta.toJSON()

@@ -63,7 +63,7 @@ export default function EditCliente() {
 
     useEffect(() => {
         verifyPermission();
-        // Simula carregamento
+     
         setTimeout(() => setLoad(false), 500);
     }, []);
 

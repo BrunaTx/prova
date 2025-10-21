@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router';
 import { useState, useEffect } from 'react';
-import { Container, Button, Alert } from 'react-bootstrap';
+import { Container, Alert } from 'react-bootstrap';
 import { OrbitProgress } from "react-loading-indicators";
 import NavigationBar from '../../components/navigationbar';
-import { Label, Input, Select, Submit } from "./style";
+import { Label, Select, Input, Submit } from "./style";
 import { Client } from '../../api/client';
 import { getPermissions } from '../../service/PermissionService';
 import { getDataUser } from '../../service/UserService';
@@ -11,11 +11,11 @@ import { getDataUser } from '../../service/UserService';
 export default function CreateAplicacaoFinanceira() {
     const [tipo, setTipo] = useState('');
     const [valor, setValor] = useState('');
-    const [numeroConta, setNumeroConta] = useState('');
-    const [status, setStatus] = useState('ativa');
     const [contaEncontrada, setContaEncontrada] = useState(null);
-    const [erro, setErro] = useState('');
+    const [contas, setContas] = useState([]);
+    const [status, setStatus] = useState('ativa');
     const [load, setLoad] = useState(true);
+    const [erro, setErro] = useState('');
     const navigate = useNavigate();
     const permissions = getPermissions();
     const dataUser = getDataUser();
@@ -36,54 +36,18 @@ export default function CreateAplicacaoFinanceira() {
         else if (permissions.createAplicacaoFinanceira === 0) navigate(-1);
     }
 
-    // Função para buscar conta pelo número
-    async function buscarContaPorNumero() {
-        if (!numeroConta) {
-            setContaEncontrada(null);
-            setErro('');
-            return;
-        }
-
-        try {
-            setErro('');
-            const response = await Client.get(`contasCorrentes?numero_conta=${numeroConta}`);
-            if (response.data.data && response.data.data.length > 0) {
-                const conta = response.data.data[0];
-                setContaEncontrada(conta);
-                setErro('');
-            } else {
-                setContaEncontrada(null);
-                setErro('Conta corrente não encontrada');
-            }
-        } catch (error) {
-            setContaEncontrada(null);
-            setErro('Erro ao buscar conta corrente');
-        }
-    }
-
     useEffect(() => {
         verifyPermission();
-        // Simula carregamento
         setTimeout(() => setLoad(false), 500);
+
+        Client.get(`contasCorrentes?user_id=${dataUser.id}`)
+            .then(res => setContas(res.data.data || []))
+            .catch(console.error);
     }, []);
-
-    // Busca conta quando o número muda (com debounce)
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            if (numeroConta && numeroConta.length >= 4) {
-                buscarContaPorNumero();
-            } else {
-                setContaEncontrada(null);
-                setErro('');
-            }
-        }, 500);
-
-        return () => clearTimeout(timer);
-    }, [numeroConta]);
 
     function sendData() {
         if (!contaEncontrada) {
-            setErro('Por favor, digite um número de conta válido');
+            setErro('Selecione uma conta válida');
             return;
         }
 
@@ -105,7 +69,7 @@ export default function CreateAplicacaoFinanceira() {
             {load
                 ? <Container className="d-flex justify-content-center mt-5">
                     <OrbitProgress variant="spokes" color="#f700adff" size="medium" />
-                </Container>
+                  </Container>
                 : <Container className='mt-2'>
                     <div className="row">
                         <div className="col-md-6">
@@ -127,7 +91,7 @@ export default function CreateAplicacaoFinanceira() {
                                 step="0.01"
                                 min="0.01"
                             />
-                        {contaEncontrada && valor && parseFloat(valor) > contaEncontrada.saldo && (
+                            {contaEncontrada && valor && parseFloat(valor) > contaEncontrada.saldo && (
                                 <Alert
                                 className="mt-2 small py-2"
                                 style={{
@@ -138,52 +102,55 @@ export default function CreateAplicacaoFinanceira() {
                                 >
                                 Saldo insuficiente, saldo atual:{' '}
                                 <strong>
-                                    {new Intl.NumberFormat('pt-BR', {
-                                    style: 'currency',
-                                    currency: 'BRL',
-                                    }).format(contaEncontrada.saldo)}
+                                    {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(contaEncontrada.saldo)}
                                 </strong>
                                 </Alert>
-                        )}
+                            )}
                         </div>
                     </div>
 
                     <div className="row mt-3">
                         <div className="col-md-6">
-                            <Label>Número da Conta Corrente</Label>
-                            <Input
-                                type="text"
-                                value={numeroConta}
-                                onChange={e => setNumeroConta(e.target.value)}
-                                placeholder="Digite o número da conta"
-                            />
-                          {contaEncontrada && (
-                            <Alert
-                                className="mt-2 small py-2"
-                                style={{
-                                backgroundColor: 'white',
-                                color: '#f700adff',
-                                border: 'none',
+                            <Label>Conta Corrente</Label>
+                            <Select
+                                value={contaEncontrada?.id || ''}
+                                onChange={e => {
+                                    const selected = contas.find(c => c.id === parseInt(e.target.value));
+                                    setContaEncontrada(selected || null);
                                 }}
                             >
-                                <br />
-                                Saldo: <strong>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(contaEncontrada.saldo)}</strong>
-                            </Alert>
-                        )}
-
-                        </div>
-                        <div className="col-md-6">
-                            <Label>Status</Label>
-                            <Select value={status} onChange={e => setStatus(e.target.value)}>
-                                {statusAplicacao.map(s => (
-                                    <option key={s.value} value={s.value}>{s.label}</option>
+                                <option value="">Selecione a conta</option>
+                                {contas.map(c => (
+                                    <option key={c.id} value={c.id}>
+                                        {c.numeroConta} - {c.cliente?.nomeCompleto}
+                                    </option>
                                 ))}
                             </Select>
+                            {contaEncontrada && (
+                                <Alert
+                                    className="mt-2 small py-2"
+                                    style={{ backgroundColor: 'white', color: '#f700adff', border: 'none' }}
+                                >
+                                    Saldo: <strong>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(contaEncontrada.saldo)}</strong>
+                                </Alert>
+                            )}
                         </div>
+                       <div className="col-md-6">
+                        <Label>Status</Label>
+                        <Select 
+                            value={status} 
+                            onChange={e => setStatus(e.target.value)}
+                        >
+                            <option value="ativa">Ativa</option>
+                            {dataUser.papel === 'gerente' && (
+                                <option value="resgatada">Resgatada</option>
+                            )}
+                        </Select>
+                    </div>
                     </div>
 
                     <div className="mt-3 d-flex gap-2">
-                        <Submit  value="Voltar" onClick={() => navigate('/aplicacoesFinanceiras')} />
+                        <Submit value="Voltar" onClick={() => navigate('/aplicacoesFinanceiras')} />
                         <Submit value="Cadastrar" onClick={sendData} disabled={!contaEncontrada || !tipo || !valor} />
                     </div>
                 </Container>

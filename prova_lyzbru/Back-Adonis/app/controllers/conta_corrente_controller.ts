@@ -10,18 +10,16 @@ export default class ContaCorrenteController {
       const user = auth.user
       if (!user) return response.status(401).json({ message: 'Não autorizado' })
 
-      // 🔹 Corrigido: pega o input corretamente (camelCase)
       const numeroConta = request.input('numeroConta')
       let query = ContaCorrente.query().preload('cliente')
 
-      // 🔒 Restrição para cliente logado: só vê a própria conta
+      // cliente logado vê a própria conta
       if (user.papel_id === 2) {
         const cliente = await Cliente.query().where('user_id', user.id).first()
         if (!cliente) return response.status(404).json({ message: 'Cliente não encontrado' })
         query = query.where('cliente_id', cliente.id)
       }
 
-      // ✅ Filtro funcional
       if (numeroConta) {
         query = query.where('numeroConta', numeroConta)
       }
@@ -44,7 +42,7 @@ export default class ContaCorrenteController {
         .preload('cliente')
         .firstOrFail()
 
-      // 🔒 Cliente só pode ver a própria conta
+      // cliente ve conta na url
       if (user.papel_id === 2) {
         const cliente = await Cliente.query().where('user_id', user.id).first()
         if (!cliente || conta.clienteId !== cliente.id) {

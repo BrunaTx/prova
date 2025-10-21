@@ -7,12 +7,12 @@ export default class ClienteController {
     if (!user) return response.status(401).json({ message: 'Não autorizado' })
 
     if (user.papel_id === 2) {
-      // Cliente logado vê apenas o próprio registro
+      // Cliente logado cliente
       const cliente = await ClienteService.buscarClientePorUserId(user.id)
       return response.status(200).json({ message: 'OK', data: cliente ? [cliente] : [] })
     }
 
-    // Gerente/admin vê todos os clientes
+    // Gerente ve clientes
     const clientes = await ClienteService.listarClientes()
     return response.status(200).json({ message: 'OK', data: clientes })
   }
