@@ -28,25 +28,27 @@ export default class AplicacaoFinanceiraService {
   }
 
   static async atualizarAplicacao(id: number, payload: any) {
-    const aplicacao = await AplicacaoFinanceira.query()
-      .where('id', id)
-      .preload('contaCorrente', c => c.preload('cliente'))
-      .firstOrFail()
+  const aplicacao = await AplicacaoFinanceira.query()
+    .where('id', id)
+    .preload('contaCorrente', c => c.preload('cliente'))
+    .firstOrFail()
 
-    const conta = await ContaCorrente.findOrFail(aplicacao.conta_corrente_id)
-    conta.saldo += Number(aplicacao.valor)
+  const conta = await ContaCorrente.findOrFail(aplicacao.conta_corrente_id)
 
-    if (payload.valor) {
-      if (Number(conta.saldo) < Number(payload.valor)) throw new Error('Saldo insuficiente.')
-      conta.saldo -= Number(payload.valor)
-    }
-
+  // 🟢 Se o status for alterado para "resgatada" e ainda não estava assim
+  if (payload.status === 'resgatada' && aplicacao.status !== 'resgatada') {
+    conta.saldo = Number(conta.saldo) + Number(aplicacao.valor)
     await conta.save()
-    aplicacao.merge(payload)
-    await aplicacao.save()
-    await aplicacao.load('contaCorrente', c => c.preload('cliente'))
-    return aplicacao.toJSON()
   }
+
+  // Atualiza os dados da aplicação
+  aplicacao.merge(payload)
+  await aplicacao.save()
+
+  await aplicacao.load('contaCorrente', c => c.preload('cliente'))
+  return aplicacao.toJSON()
+}
+
 
   static async deletarAplicacao(id: number) {
     const aplicacao = await AplicacaoFinanceira.query()

@@ -127,6 +127,24 @@ export default function CreateAplicacaoFinanceira() {
                                 step="0.01"
                                 min="0.01"
                             />
+                        {contaEncontrada && valor && parseFloat(valor) > contaEncontrada.saldo && (
+                                <Alert
+                                className="mt-2 small py-2"
+                                style={{
+                                    backgroundColor: 'white',
+                                    color: '#f700adff',
+                                    border: 'none',
+                                }}
+                                >
+                                Saldo insuficiente, saldo atual:{' '}
+                                <strong>
+                                    {new Intl.NumberFormat('pt-BR', {
+                                    style: 'currency',
+                                    currency: 'BRL',
+                                    }).format(contaEncontrada.saldo)}
+                                </strong>
+                                </Alert>
+                        )}
                         </div>
                     </div>
 
