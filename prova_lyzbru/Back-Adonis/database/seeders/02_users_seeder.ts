@@ -3,7 +3,7 @@ import User from '#models/user'
 
 export default class UserSeeder extends BaseSeeder {
   public async run() {
-    // Criar gerente
+ 
     await User.create({
       nome_completo: 'gerente',
       email: 'gerente@gmail.com',
@@ -11,7 +11,6 @@ export default class UserSeeder extends BaseSeeder {
       papel_id: 1, 
     })
 
-    // Criar clientes (usuários)
     await User.create({
       nome_completo: 'Bruna',
       email: 'cliente1@gmail.com',

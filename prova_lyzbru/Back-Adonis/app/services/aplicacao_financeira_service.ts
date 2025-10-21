@@ -35,13 +35,11 @@ export default class AplicacaoFinanceiraService {
 
   const conta = await ContaCorrente.findOrFail(aplicacao.conta_corrente_id)
 
-  // 🟢 Se o status for alterado para "resgatada" e ainda não estava assim
   if (payload.status === 'resgatada' && aplicacao.status !== 'resgatada') {
     conta.saldo = Number(conta.saldo) + Number(aplicacao.valor)
     await conta.save()
   }
 
-  // Atualiza os dados da aplicação
   aplicacao.merge(payload)
   await aplicacao.save()
 
@@ -58,7 +56,6 @@ export default class AplicacaoFinanceiraService {
 
     const conta = await ContaCorrente.findOrFail(aplicacao.conta_corrente_id)
 
-    // Garantindo que seja number
     const valorAplicacao = Number(aplicacao.valor) || 0
     conta.saldo = Number(conta.saldo) + valorAplicacao
 

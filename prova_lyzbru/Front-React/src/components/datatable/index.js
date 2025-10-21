@@ -164,16 +164,16 @@ export default function DataTable(props) {
           keyboard={false}
       >
           <Modal.Header closeButton style={{ backgroundColor: '#ffe4f6' }}>
-                              <Modal.Title style={{ color: '#f700adff' }}>Cliente Removido</Modal.Title>
-                              </Modal.Header>
-          
-                              <Modal.Body style={{ backgroundColor: '#ffe4f6', color: '#f700adff' }}>
-                              Remoção realizada com Sucesso!
-                              </Modal.Body>
-          
-                              <Modal.Footer closeButton style={{ backgroundColor: '#ffe4f6' }}>
-                                  <RosaButton onClick={handleClose}>OK</RosaButton>
-                              </Modal.Footer>
+            <Modal.Title style={{ color: '#f700adff' }}>Cliente Removido</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body style={{ backgroundColor: '#ffe4f6', color: '#f700adff' }}>
+            Remoção realizada com Sucesso!
+            </Modal.Body>
+
+            <Modal.Footer closeButton style={{ backgroundColor: '#ffe4f6' }}>
+                <RosaButton onClick={handleClose}>OK</RosaButton>
+            </Modal.Footer>
       </Modal>
     </>
   );

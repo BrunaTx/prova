@@ -6,7 +6,7 @@ export default function Logo({ size = "normal" }) {
     <LogoCaixa>
       <LogoTitulo className={size}>Banks</LogoTitulo>
       <LogoTitulo2 className={size}>Bankário</LogoTitulo2>
-      <LogoSubtitulo>Banco do Desesepero</LogoSubtitulo>
+      <LogoSubtitulo>Banco do Desespero</LogoSubtitulo>
     </LogoCaixa>
   );
 }

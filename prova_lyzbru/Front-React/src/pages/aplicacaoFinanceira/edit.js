@@ -58,7 +58,6 @@ export default function EditAplicacaoFinanceira() {
         verifyPermission();
         setTimeout(() => setLoad(false), 500);
 
-        // Buscar todas as contas para o Select
         Client.get('contasCorrentes')
             .then(res => setContas(res.data.data || []))
             .catch(console.error);

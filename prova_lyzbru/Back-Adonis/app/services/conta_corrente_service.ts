@@ -33,7 +33,6 @@ export default class ContaCorrenteService {
       throw new Error(' ')
     }
 
-    // Verifica se ainda há aplicações ativas
     const aplicacoesAtivas = await AplicacaoFinanceira.query()
       .where('conta_corrente_id', id)
       .where('status', 'ativa')

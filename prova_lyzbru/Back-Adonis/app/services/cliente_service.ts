@@ -3,7 +3,6 @@ import User from '#models/user'
 
 export default class ClienteService {
 
-  // Criar cliente e usuário  
   static async criarCliente(payload: any) {
     const user = await User.create({
       nome_completo: payload.nome_completo,
@@ -12,7 +11,6 @@ export default class ClienteService {
       papel_id: 2,                  
     })
 
-    //  criar cliente e vincular ao usuário
     const cliente = await Cliente.create({
       ...payload,
       user_id: user.id,
@@ -21,14 +19,12 @@ export default class ClienteService {
     return cliente.toJSON()
   }
 
-  // busca cliente por id
   static async buscarCliente(id: number) {
     const cliente = await Cliente.query().where('id', id).first()
     if (!cliente) return null
     return cliente.toJSON()
   }
 
-  // busca cliente e user pelo id logado
   static async buscarClientePorUserId(userId: number) {
     const cliente = await Cliente.query().where('user_id', userId).first()
     if (!cliente) return null
@@ -40,7 +36,6 @@ export default class ClienteService {
     return clientes.map(c => c.toJSON())
   }
 
-  // Atualizar cliente
   static async atualizarCliente(id: number, payload: any) {
 
   const cliente = await Cliente.findOrFail(id)
@@ -57,8 +52,6 @@ export default class ClienteService {
 
   return cliente.toJSON()
 }
-
-  // Deletar cliente
 
 static async deletarCliente(id: number) {
  

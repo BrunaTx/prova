@@ -82,7 +82,7 @@ export default class AuthController {
   }
 
   
-   //Fazer logout do usuário (invalidar token atual)
+   //fazer logout do usuário (invalidar token atual)
  
   async logout({ auth, response }: HttpContext) {
     try {
